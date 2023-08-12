@@ -2,6 +2,8 @@ import { ClerkProvider } from "@clerk/nextjs"
 import { Inter } from "next/font/google"
 
 import '../globals.css'
+
+
 import Topbar from "@/components/shared/Topbar"
 import LeftSidebar from "@/components/shared/LeftSidebar"
 import RightSidebar from "@/components/shared/RightSidebar"
