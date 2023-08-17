@@ -8,16 +8,22 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserValidation } from "@/lib/validations/user";
+
 import * as z from "zod";
 import Image from "next/image";
 import { ChangeEvent, FormEvent, useState } from "react";
+
+import { updateUser } from "@/lib/actions/user.actions";
+import {usePathname, useRouter} from 'next/navigation';
 import { isBase64Image } from "@/lib/utils";
-import {useUploadThing}  from '@/lib/uploadthing';
+import { useUploadThing } from '@/lib/uploadthing';
+import { UserValidation } from "@/lib/validations/user";
+
 interface Props {
   user: {
     id: string;
@@ -32,6 +38,8 @@ interface Props {
 function AccountProfile({ user, btnTitle }: Props) {
   const [files, setFiles] = useState<File[]>([]);
   const { startUpload } = useUploadThing("media");
+  const router = useRouter();
+  const pathname = usePathname();
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
@@ -77,6 +85,20 @@ function AccountProfile({ user, btnTitle }: Props) {
     }
 
     // TODO: Update user profile 
+    await updateUser({
+      username: values.username,
+      name: values.name,
+      userId: user.id,
+      bio: values.bio,
+      image: values.profile_photo,
+      path: pathname,
+    }); // in any position props, because only object
+
+    if(pathname === 'profile/edit') {
+      router.back();
+    } else {
+      router.push('/');
+    }
   }
   return (
     <Form {...form}>
@@ -122,6 +144,7 @@ function AccountProfile({ user, btnTitle }: Props) {
                   }}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -141,6 +164,7 @@ function AccountProfile({ user, btnTitle }: Props) {
                   className="account-form_input"
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -160,6 +184,7 @@ function AccountProfile({ user, btnTitle }: Props) {
                   className="account-form_input"
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -179,6 +204,7 @@ function AccountProfile({ user, btnTitle }: Props) {
                   className="account-form_input"
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
