@@ -94,7 +94,7 @@ function AccountProfile({ user, btnTitle }: Props) {
       path: pathname,
     }); // in any position props, because only object
 
-    if(pathname === 'profile/edit') {
+    if(pathname === '/profile/edit') {
       router.back();
     } else {
       router.push('/');

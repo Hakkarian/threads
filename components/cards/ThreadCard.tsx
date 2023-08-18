@@ -2,12 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface Props {
+  key: string
   id: string;
   currentUserId: string;
   parentId: string | null;
   content: string;
   author: {
-    _doc: { image: string };
     name: string;
     image: string;
     id: string;
@@ -25,6 +25,7 @@ interface Props {
 //IMPORTANT: Implement the share, repost and heart functionality
 
 const ThreadCard = ({
+  key,
   id,
   currentUserId,
   parentId,
@@ -35,9 +36,10 @@ const ThreadCard = ({
   comments,
   isComment,
 }: Props) => {
-  const { image } = author._doc;
-  console.log(author)
-  console.log(isComment);
+
+  console.log('author', author)
+  
+
   return (
     <article
       className={`flex w-full flex-col rounded-xl ${
@@ -49,7 +51,7 @@ const ThreadCard = ({
           <div className="flex flex-col items-center">
             <Link href={`/profile/${author.id}`} className="relative h-11 w-11">
               <Image
-                src={image}
+                src={author.image}
                 alt="profile-image"
                 fill
                 className="curson-pointer rounded-full"
@@ -59,13 +61,22 @@ const ThreadCard = ({
             <div className="thread-card_bar" />
           </div>
           <div className="flex w-full flex-col">
-            <Link href={`/profile/${author.id}`} className="w-fit">
+            <Link
+              href={`/profile/${author.id}`}
+              className={` ${isComment ? "mb-2" : "mb-3"} w-fit`}
+            >
               <h4 className="cursor-pointer text-base-semibold text-light-1">
                 {author.name}
               </h4>
             </Link>
-            <p className="mt-2 text-small-regular text-light-2">{content}</p>
-            <div className="mt-5 flex flex-col gap-3">
+            <p
+              className={`${
+                isComment ? "mb-2" : "mb-3"
+              } text-small-regular text-light-2`}
+            >
+              {content}
+            </p>
+            <div className={`${isComment && "mb-5"} flex flex-col gap-3`}>
               <div className="flex gap-3.5">
                 <Image
                   src="/assets/heart-gray.svg"

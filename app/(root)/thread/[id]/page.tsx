@@ -19,10 +19,13 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   const thread = await fetchThreadById(params.id);
 
+  console.log('threaddd', thread);
+
   return (
     <section className="relative">
       <div>
         <ThreadCard
+          key={thread._id}
           id={thread._id}
           currentUserId={user?.id || ""}
           parentId={thread.parentId}
@@ -43,8 +46,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
       <ul className="mt-10">
         {thread.children.map((child: any) => (
-          <li key={thread._id}>
             <ThreadCard
+              key={child._id}
               id={child._id}
               currentUserId={user?.id || ""}
               parentId={child.parentId}
@@ -55,7 +58,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
               comments={child.children}
               isComment
             />
-          </li>
         ))}
       </ul>
     </section>

@@ -2,14 +2,15 @@ import ThreadCard from "@/components/cards/ThreadCard";
 import Comment from "@/components/forms/Comment";
 import { fetchPosts, fetchThreadById } from "@/lib/actions/thread.actions";
 import { ClerkProvider, UserButton, currentUser } from "@clerk/nextjs";
+import { Router } from "next/router";
 import { userInfo } from "os";
 
 export default async function Home() {
   const res = await fetchPosts(1, 30);
 
-  console.log(res);
-
   const user = await currentUser();
+
+  console.log(res.posts.map(post => post))
 
   return (
     <>
@@ -21,8 +22,8 @@ export default async function Home() {
         ) : (
           <ul>
             {res.posts.map((post) => (
-              <li key={post._id}>
-                <ThreadCard
+              <ThreadCard
+                key={post._id}
                   id={post._id}
                   currentUserId={user?.id || ""}
                   parentId={post.parentId}
@@ -32,7 +33,6 @@ export default async function Home() {
                   createdAt={post.createdAt}
                   comments={post.children}
                 />
-              </li>
             ))}
           </ul>
         )}
