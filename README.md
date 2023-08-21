@@ -1,3 +1,14 @@
+# Threads
+
+A next.js clone of Threads with the set of following features:
+1. Homepage will all threads
+2. Page where you can add additional threads
+3. Serching threads
+4. Activities, inside of there you can see as someone recently answered to your thread
+5. Profile with extensive info about user
+6. Onboarding page on which user lands out after succesful registration (for the first time)
+Have a nice day :)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
