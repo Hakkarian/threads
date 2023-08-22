@@ -18,7 +18,7 @@ import {
   updateCommunityInfo,
 } from "@/lib/actions/community.actions";
 
-console.log(process.env.MONGODB_URL);
+console.log('heyoku');
 
 // Resource: https://clerk.com/docs/integration/webhooks#supported-events
 // Above document lists the supported events
@@ -46,7 +46,7 @@ export const POST = async (request: Request) => {
     "svix-signature": header.get("svix-signature"),
   };
 
-  // Activitate Webhook in the Clerk Dashboard.
+  // Activate Webhook in the Clerk Dashboard.
   // After adding the endpoint, you'll see the secret on the right side.
   const wh = new Webhook(process.env.NEXT_CLERK_WEBHOOK_SECRET || "");
 

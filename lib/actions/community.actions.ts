@@ -22,6 +22,8 @@ export async function createCommunity(
     // Find the user with the provided unique id
     const user = await User.findOne({ id: createdById });
 
+    console.log('here com created')
+
     if (!user) {
       throw new Error("User not found"); // Handle the case if the user with the id is not found
     }
@@ -165,6 +167,7 @@ export async function addMemberToCommunity(
 ) {
   try {
     connectToDb();
+    console.log('here')
 
     // Find the community by its unique id
     const community = await Community.findOne({ id: communityId });
