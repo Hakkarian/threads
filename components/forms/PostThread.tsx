@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useOrganization } from "@clerk/nextjs";
 
 import { useState } from "react";
 import { useUploadThing } from "@/lib/uploadthing";
@@ -33,10 +34,10 @@ interface Props {
 }
 
 function PostThread({ userId }: { userId: string }) {
-  const [files, setFiles] = useState<File[]>([]);
-  const { startUpload } = useUploadThing("media");
   const router = useRouter();
   const pathname = usePathname();
+  const { organization } = useOrganization();
+  console.log('org id', organization)
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
@@ -46,12 +47,14 @@ function PostThread({ userId }: { userId: string }) {
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
-    await createThread({
-      text: values.thread,
-      author: userId,
-      communityId: null,
-      path: pathname,
-    });
+    console.log('community', organization?.id)
+      await createThread({
+        text: values.thread,
+        author: userId,
+        communityId: organization ? organization.id : null,
+        path: pathname,
+      });
+
     router.push("/");
   };
 

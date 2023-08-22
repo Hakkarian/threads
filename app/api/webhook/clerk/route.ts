@@ -18,6 +18,8 @@ import {
   updateCommunityInfo,
 } from "@/lib/actions/community.actions";
 
+console.log(process.env.MONGODB_URL);
+
 // Resource: https://clerk.com/docs/integration/webhooks#supported-events
 // Above document lists the supported events
 type EventType =
