@@ -4,7 +4,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { profileTabs } from "@/constants";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
-import { table } from "console";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
@@ -15,8 +14,6 @@ async function Page({ params }: { params: { id: string } }) {
 
     const userInfo = await fetchUser(params.id);
     
-    console.log('hey', userInfo)
-
   if (!userInfo?.onboarded) redirect("/onboarding");
 
   return (

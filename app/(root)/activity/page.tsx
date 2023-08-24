@@ -17,7 +17,6 @@ async function Page() {
   // getActivity
   const activities = await getActivity(userInfo._id);
 
-  console.log(activities)
 
   // Fetch users
 

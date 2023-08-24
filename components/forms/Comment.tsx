@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { usePathname, useRouter } from "next/navigation";
 import { CommentValidation } from "@/lib/validations/thread";
-import { AddCommentToThread, createThread } from "@/lib/actions/thread.actions";
+import { addCommentToThread, createThread } from "@/lib/actions/thread.actions";
 import Image from "next/image";
 
 interface Props {
@@ -37,20 +37,17 @@ function Comment({ threadId, currentUserImage, currentUserId }: Props) {
 
     const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
         try {
-            console.log("res1");
-            await AddCommentToThread(
+            await addCommentToThread(
               threadId,
               values.thread,
               JSON.parse(currentUserId),
               pathname
             );
-            console.log("res2");
             form.reset();
         } catch (error) {
             console.log(error)
         }
   };
-  console.log('comment image', currentUserImage)
   return (
     <Form {...form}>
       <form 

@@ -10,8 +10,6 @@ export default async function Home() {
 
   const user = await currentUser();
 
-  console.log(res.posts.map(post => post))
-
   return (
     <>
       <h1 className="head-text text-left">Home</h1>
@@ -20,7 +18,7 @@ export default async function Home() {
         {res.posts.length === 0 ? (
           <p className="no-result">No threads found</p>
         ) : (
-          <ul>
+          <ul className="flex flex-col gap-5">
             {res.posts.map((post) => (
               <ThreadCard
                 key={post._id}
