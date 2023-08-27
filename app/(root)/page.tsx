@@ -10,6 +10,8 @@ export default async function Home() {
 
   const user = await currentUser();
 
+  console.log('likes fund', res)
+
   return (
     <>
       <h1 className="head-text text-left">Home</h1>
@@ -29,7 +31,9 @@ export default async function Home() {
                   author={post.author}
                   community={post.community}
                   createdAt={post.createdAt}
-                  comments={post.children}
+                comments={post.children}
+                likes={Number(post.favorite.length)}
+                liked={post.liked}
                 />
             ))}
           </ul>

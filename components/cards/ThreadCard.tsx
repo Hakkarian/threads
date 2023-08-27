@@ -1,6 +1,8 @@
 import { formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "../ui/button";
+import HeartButton from "../shared/HeartButton";
 
 interface Props {
   key: string;
@@ -20,9 +22,10 @@ interface Props {
       image: string;
     };
   }[];
+  likes: number;
   isComment?: boolean;
+  liked?: boolean;
 }
-
 //IMPORTANT: Implement the share, repost and heart functionality
 
 const ThreadCard = ({
@@ -36,9 +39,11 @@ const ThreadCard = ({
   createdAt,
   comments,
   isComment,
+  likes = 0,
+  liked
 }: Props) => {
-  console.log("author", author);
-  console.log('community', community)
+
+  console.log('likes', likes)
   return (
     <article
       className={`flex w-full flex-col rounded-xl ${
@@ -77,13 +82,7 @@ const ThreadCard = ({
             </p>
             <div className={`${isComment && "mb-5"} flex flex-col gap-3`}>
               <div className="flex gap-3.5">
-                <Image
-                  src="/assets/heart-gray.svg"
-                  alt="heart"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                />
+                <HeartButton userId={currentUserId} threadId={id.toString()} />
                 <Link href={`/thread/${id}`}>
                   <Image
                     src="/assets/reply.svg"
@@ -93,22 +92,28 @@ const ThreadCard = ({
                     className="cursor-pointer object-contain"
                   />
                 </Link>
-
-                <Image
-                  src="/assets/repost.svg"
-                  alt="repost"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                />
-                <Image
-                  src="/assets/share.svg"
-                  alt="share"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                />
+                <Link href="/">
+                  <Image
+                    src="/assets/repost.svg"
+                    alt="repost"
+                    width={24}
+                    height={24}
+                    className="cursor-pointer object-contain"
+                  />
+                </Link>
+                <Link href="/">
+                  <Image
+                    src="/assets/share.svg"
+                    alt="share"
+                    width={24}
+                    height={24}
+                    className="cursor-pointer object-contain"
+                  />
+                </Link>
               </div>
+              <p className="text-subtle-medium text-gray-1 mr-10">
+                {`${comments && `${comments.length} replies -`} ${likes} likes`}
+              </p>
               {isComment && comments.length > 0 && (
                 <Link href={`/thread/${id}`}>
                   <p className="mt-1 text-subtle-medium text-gray-1">

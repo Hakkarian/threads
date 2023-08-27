@@ -19,6 +19,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   const thread = await fetchThreadById(params.id);
 
+  console.log('goooooooo', thread.id)
+
   return (
     <section className="relative">
       <div>
@@ -32,11 +34,13 @@ const Page = async ({ params }: { params: { id: string } }) => {
           community={thread.community}
           createdAt={thread.createdAt}
           comments={thread.children}
+          likes={Number(thread.favorite.length)}
+          liked={thread.liked}
         />
       </div>
       <div className="mt-7">
         <Comment
-          threadId={thread.id}
+          threadId={thread.id.toString()}
           currentUserImage={user.imageUrl}
           currentUserId={JSON.stringify(userInfo._id)}
         />
@@ -44,18 +48,20 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
       <ul className="mt-10">
         {thread.children.map((child: any) => (
-            <ThreadCard
-              key={child._id}
-              id={child._id}
-              currentUserId={user?.id || ""}
-              parentId={child.parentId}
-              content={child.text}
-              author={child.author}
-              community={child.community}
-              createdAt={child.createdAt}
-              comments={child.children}
-              isComment
-            />
+          <ThreadCard
+            key={child._id}
+            id={child._id}
+            currentUserId={user?.id || ""}
+            parentId={child.parentId}
+            content={child.text}
+            author={child.author}
+            community={child.community}
+            createdAt={child.createdAt}
+            comments={child.children}
+            likes={Number(thread.favorite.length)}
+            liked={thread.liked}
+            isComment
+          />
         ))}
       </ul>
     </section>
