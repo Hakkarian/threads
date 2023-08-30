@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @layer components {
+
+  * {
+    outline: none;
+  }
+
+  input[type="text"]:focus ~ .input-text {
+  @apply  bg-dark-1 transform -translate-y-7 -translate-x-2 text-light-2;
+}
   /* main */
   .main-container {
     @apply flex min-h-screen flex-1 flex-col items-center bg-dark-1 px-6 pb-10 pt-28 max-md:pb-32 sm:px-10;

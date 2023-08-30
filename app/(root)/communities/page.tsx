@@ -1,12 +1,13 @@
 import CommunityCard from "@/components/cards/CommunityCard";
-import UserCard from "@/components/cards/UserCard";
+import FilteredLabel from "@/components/shared/FilteredLabel";
+import { Pagination } from "@/components/shared/Pagination";
 import { fetchCommunities } from "@/lib/actions/community.actions";
-import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
+import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 
 import { redirect } from "next/navigation";
 
-async function Page({ params }: { params: { id: string } }) {
+async function Page({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
   const user = await currentUser();
 
   if (!user) return null;
@@ -18,35 +19,18 @@ async function Page({ params }: { params: { id: string } }) {
   // Fetch users
 
   const res = await fetchCommunities({
-    searchString: "",
-    pageNumber: 1,
+    searchString: searchParams.q || "",
+    pageNumber: searchParams.page ? +searchParams.page : 1,
     pageSize: 25,
   });
 
   return (
     <section>
-      <h1 className="head-text mb-10">Search</h1>
+      <h1 className="head-text mb-10 flex justify-center align-center">Search</h1>
 
-
-      <div className="mt-14 flex flex-col gap-9">
-        {res.communities.length === 0 ? (
-          <p className="no-result">No communities</p>
-        ) : (
-          <>
-            {res.communities.map((com) => (
-              <CommunityCard
-                key={com.id}
-                id={com.id}
-                name={com.name}
-                username={com.username}
-                imgUrl={com.image}
-                bio={com.bio}
-                members={com.members}
-              />
-            ))}
-          </>
-        )}
-      </div>
+      <FilteredLabel routeType="communities" />
+      
+      <Pagination userId={user.id} searchString={searchParams.q || "" } routeType="communities" />
     </section>
   );
 }

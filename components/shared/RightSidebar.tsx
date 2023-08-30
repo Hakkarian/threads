@@ -37,7 +37,10 @@ async function RightSidebar({ params }: { params: { id: string } }) {
   return (
     <section className="custom-scrollbar rightsidebar">
       <div className="flex flex-1 flex-col justify-start">
-        <div className="mt-14 flex flex-col gap-5">
+        <h2 className="text-center text-heading3-bold text-light-2">
+          Suggested users
+        </h2>
+        <div className="mt-6 flex flex-col gap-5">
           {res.users.length === 0 ? (
             <p className="no-result">No users</p>
           ) : (
@@ -55,7 +58,10 @@ async function RightSidebar({ params }: { params: { id: string } }) {
             </>
           )}
         </div>
-        <div className="mt-14 flex flex-col gap-5">
+        <h2 className="mt-10 text-center text-heading3-bold text-light-2">
+          Suggested communities
+        </h2>
+        <div className="mt-6 flex flex-col gap-5">
           {coms.communities.length === 0 ? (
             <p className="no-result">No communities</p>
           ) : (

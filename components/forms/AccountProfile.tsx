@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import * as z from "zod";
 import Image from "next/image";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 import { updateUser } from "@/lib/actions/user.actions";
 import {usePathname, useRouter} from 'next/navigation';

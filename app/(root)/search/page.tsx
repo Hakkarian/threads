@@ -1,10 +1,16 @@
 import UserCard from "@/components/cards/UserCard";
-import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
+import FilteredLabel from "@/components/shared/FilteredLabel";
+import {Pagination} from "@/components/shared/Pagination";
+import { fetchUser, fetchUsers, fetchUsers2 } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 
 import { redirect } from "next/navigation";
 
-async function Page({ params }: { params: { id: string } }) {
+async function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) {
   const user = await currentUser();
 
   if (!user) return null;
@@ -15,35 +21,21 @@ async function Page({ params }: { params: { id: string } }) {
 
   // Fetch users
 
-  const res = await fetchUsers({
+  let res = await fetchUsers({
     userId: user.id,
-    searchString: "",
-    pageNumber: 1,
+    searchString: searchParams.q || "",
+    pageNumber: searchParams.page ? +searchParams.page : 1,
     pageSize: 25,
   });
 
   return (
     <section>
-      <h1 className="head-text mb-10">Search</h1>
+      <h1 className="head-text mb-10 flex justify-center items-center">
+        Search
+      </h1>
 
-      <div className="mt-14 flex flex-col gap-9">
-        {res.users.length === 0 ? (
-          <p className="no-result">No users</p>
-        ) : (
-          <>
-            {res.users.map((person) => (
-              <UserCard
-                key={person.id}
-                id={person.id}
-                name={person.name}
-                username={person.username}
-                imgUrl={person.image}
-                personType="User"
-              />
-            ))}
-          </>
-        )}
-      </div>
+      <FilteredLabel routeType="search" />
+      <Pagination routeType="user" userId={user.id} searchString={searchParams.q || ""} />
     </section>
   );
 }

@@ -150,6 +150,7 @@ export async function fetchCommunities({
 
     const communities = await communitiesQuery.exec();
 
+
     // Check if there are more communities beyond the current page.
     const isNext = totalCommunitiesCount > skipAmount + communities.length;
 
